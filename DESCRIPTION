@@ -1,0 +1,17 @@
+Package: extendralloc
+Type: Package
+Title: ExtendrAlloc
+Version: 0.1.0
+Author: Roderick
+Maintainer: Roderick <rbovee@gmail.com>
+Description: Test extendr's alloc
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports:
+    methods
+Suggests:
+    devtools,
+    roxygen2
+LazyData: true
+RoxygenNote: 7.1.2
+SystemRequirements: Cargo (rustc package manager)
