@@ -12,22 +12,22 @@ impl Test {
 
 #[extendr]
 fn as_data_frame(_test: &mut Test) -> Result<Robj> {
-    let row_names = ["A", "B", "C"];
-    let mut data: Vec<Vec<Robj>> = vec![vec![]; row_names.len()];
-    for i in 1..1_000_000 {
-        for col_ix in 0..row_names.len() {
-            data[col_ix].push(((col_ix + 1) * i).into());
+    const COUNT: u64 = 2_000_000u64;
+    let mut data: Vec<Robj> = vec![];
+    for i in 1u64..COUNT {
+        data.push(i.into());
+    }
+
+    for (ix, v) in data.iter().enumerate() {
+        if Some((ix + 1) as f64) != v.as_real() {
+            println!("BAD {} {}", ix + 1, v.as_real().unwrap());
         }
     }
 
-    let mut vectors: Vec<Robj> = vec![];
-    for v in data {
-        vectors.push(v.into());
-    }
-    let obj: Robj = List::from_names_and_values(&row_names, &vectors).into();
+    let obj: Robj = List::from_names_and_values(&["A"], vec![data]).into();
     obj.set_attrib(
         row_names_symbol(),
-        (1i32..=vectors[0].len() as i32).collect_robj(),
+        (1i32..=COUNT as i32).collect_robj(),
     )?;
     obj.set_class(&["data.frame"])?;
     Ok(obj)
